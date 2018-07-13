@@ -6,9 +6,17 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Vector2Int m_position;
 
-    private Vector2Int[] m_movementVectors = new Vector2Int[] { new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 1),
-                                                                new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(-1, -1),
-                                                                new Vector2Int(0, -1), new Vector2Int(1, -1)};
+    private readonly Dictionary<KeyCode, Vector2Int> m_movementVectors = new Dictionary<KeyCode, Vector2Int>
+    {
+        { KeyCode.Keypad1, Vector2Int.left + Vector2Int.down },
+        { KeyCode.Keypad2, Vector2Int.down                   },
+        { KeyCode.Keypad3, Vector2Int.right + Vector2Int.down},
+        { KeyCode.Keypad4, Vector2Int.left                   },
+        { KeyCode.Keypad6, Vector2Int.right                  },
+        { KeyCode.Keypad7, Vector2Int.left + Vector2Int.up   },
+        { KeyCode.Keypad8, Vector2Int.up                     },
+        { KeyCode.Keypad9, Vector2Int.right + Vector2Int.up  }
+    };
 
     private void Start()
     {
@@ -28,37 +36,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad1))
+        foreach (var vector in m_movementVectors)
         {
-            MovePlayer(m_movementVectors[0]);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            MovePlayer(m_movementVectors[1]);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            MovePlayer(m_movementVectors[2]);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            MovePlayer(m_movementVectors[3]);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad6))
-        {
-            MovePlayer(m_movementVectors[4]);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad7))
-        {
-            MovePlayer(m_movementVectors[5]);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad8))
-        {
-            MovePlayer(m_movementVectors[6]);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad9))
-        {
-            MovePlayer(m_movementVectors[7]);
+            if (Input.GetKeyDown(vector.Key))
+            {
+                MovePlayer(vector.Value);
+            }
         }
     }
 }
