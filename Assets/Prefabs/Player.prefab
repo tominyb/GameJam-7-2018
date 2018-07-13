@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4900907313105316}
   - component: {fileID: 212757111533434780}
   - component: {fileID: 114386219889932978}
+  - component: {fileID: 114650305074519116}
+  - component: {fileID: 114145128298354022}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -41,6 +43,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114145128298354022
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028528094462560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d5bf1b3782468469945ddcdf218b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114386219889932978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,6 +66,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_position: {x: 0, y: 0}
+--- !u!114 &114650305074519116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028528094462560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 90
+    i1: 9
+    i2: 87
+    i3: 218
+    i4: 180
+    i5: 82
+    i6: 8
+    i7: 212
+    i8: 121
+    i9: 192
+    i10: 170
+    i11: 154
+    i12: 82
+    i13: 34
+    i14: 94
+    i15: 2
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212757111533434780
 SpriteRenderer:
   m_ObjectHideFlags: 1

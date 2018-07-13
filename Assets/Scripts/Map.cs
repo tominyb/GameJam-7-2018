@@ -8,7 +8,6 @@ public class Map : MonoBehaviour
 {
     public static Map I;
 
-    [SerializeField] private GameObject m_playerPrefab;
     [SerializeField] private GameObject m_tilePrefab;
     [SerializeField] private Vector2Int m_gridSize;
     
@@ -18,7 +17,6 @@ public class Map : MonoBehaviour
     {
         I = this;
         GenerateMap();
-        Instantiate(m_playerPrefab);
     }
 
     private void GenerateMap()
@@ -40,5 +38,21 @@ public class Map : MonoBehaviour
         Tile tile = null;
         m_grid.TryGetValue(position, out tile);
         return tile;
+    }
+
+    public Vector2Int GetClosestTile(Vector3 position)
+    {
+        float distance = Mathf.Infinity;
+        Vector2Int closestTile = Vector2Int.zero;
+        foreach (var entry in m_grid)
+        {
+            float newDistance = Vector3.Distance(position, entry.Value.Sprite.transform.position);
+            if (newDistance < distance)
+            {
+                distance = newDistance;
+                closestTile = entry.Key;
+            }
+        }
+        return closestTile;
     }
 }
