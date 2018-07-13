@@ -14,7 +14,7 @@ public class NetworkPlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || !isClient)
         {
             return;
         }
@@ -30,29 +30,30 @@ public class NetworkPlayerController : NetworkBehaviour
 
     private void NotifyDirection(Vector2Int direction)
     {
-        // Vector2Int is not supported as an argument to Remote Actions (ClientRpc, Command).
-        // Therefore, directions are sent as Vector2's with proper conversions done in both ends.
-        if (isServer)
-        {
-            Debug.Log("Notifying clients: " + direction);
-            RpcNotifyDirectionToClients(direction);
-        }
-        else
-        {
-            Debug.Log("Notifying server: " + direction);
-            CmdNotifyDirectionToServer(direction);
-        }
+        Debug.Assert(isClient);
+        CmdNotifyDirectionToServer(direction);
     }
+
+    // Vector2Int is not supported as an argument to Remote Actions (ClientRpc, Command).
+    // Therefore, directions are sent as Vector2's with proper conversions done in both ends.
 
     [ClientRpc]
     private void RpcNotifyDirectionToClients(Vector2 directionFloat)
     {
         Debug.Log("Server notify received: " + Vector2Int.RoundToInt(directionFloat));
+        Move(Vector2Int.RoundToInt(directionFloat));
     }
 
     [Command]
     private void CmdNotifyDirectionToServer(Vector2 directionFloat)
     {
         Debug.Log("Client notify received: " + Vector2Int.RoundToInt(directionFloat));
+        RpcNotifyDirectionToClients(directionFloat);
+    }
+
+    private void Move(Vector2Int direction)
+    {
+        Debug.Log("Moving " + name + " (" + gameObject.GetInstanceID() + ") by: " + direction);
+        transform.position = Vector3Int.RoundToInt(transform.position) + new Vector3Int(direction.x, direction.y, 0);
     }
 }
