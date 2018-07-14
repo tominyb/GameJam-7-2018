@@ -13,7 +13,7 @@ public class NetworkItemSpawner : NetworkBehaviour
         for (int i = 0; i < itemCount; ++i)
         {
             int possibleSpawnIndex = Random.Range(0, possibleSpawns.Count);
-            Tile spawnTile = possibleSpawns[possibleSpawnIndex].Value;
+            Tile spawnTile = possibleSpawns[possibleSpawnIndex];
             GameObject itemObject =
                 Instantiate(m_itemPrefab, spawnTile.Sprite.transform.position, Quaternion.identity);
             NetworkServer.Spawn(itemObject);

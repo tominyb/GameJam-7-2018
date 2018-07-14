@@ -225,8 +225,8 @@ public class Map : MonoBehaviour
         return m_tileSprites[type];
     }
 
-    public List<KeyValuePair<Vector2Int, Tile>> GetTilesOfType(TileType type)
+    public List<Tile> GetTilesOfType(TileType type)
     {
-        return m_grid.Where(e => e.Value.Type == type).ToList();
+        return m_grid.Values.Where(tile => tile.Type == type).ToList();
     }
 }
