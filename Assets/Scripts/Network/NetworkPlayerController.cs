@@ -12,6 +12,17 @@ public class NetworkPlayerController : NetworkBehaviour
         { KeyCode.W, Vector2Int.up }
     };
 
+    // Server-only.
+    private NetworkTurnManager m_turnManager = null;
+
+    private void Start()
+    {
+        if (isServer)
+        {
+            m_turnManager = FindObjectOfType<NetworkTurnManager>();
+        }
+    }
+
     private void Update()
     {
         if (!isLocalPlayer || !isClient)
@@ -28,9 +39,9 @@ public class NetworkPlayerController : NetworkBehaviour
         }
     }
 
+    [Client]
     private void NotifyDirection(Vector2Int direction)
     {
-        Debug.Assert(isClient);
         CmdNotifyDirectionToServer(direction);
     }
 
@@ -49,6 +60,7 @@ public class NetworkPlayerController : NetworkBehaviour
     {
         Debug.Log("Client notify received: " + Vector2Int.RoundToInt(directionFloat));
         RpcNotifyDirectionToClients(directionFloat);
+        m_turnManager.FinishClientTurn(connectionToClient.connectionId);
     }
 
     private void Move(Vector2Int direction)
