@@ -8,8 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7729a89418c767d4197568cf5835867e, type: 3}
-  m_Name: MidPotion
+  m_Script: {fileID: 11500000, guid: dd9a14311b3ae0349b35b1637a24c2be, type: 3}
+  m_Name: Items
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 9bc74e7ed05963249841dcba3f3804bc, type: 3}
-  healthRestoreAmount: 30
+  Items:
+  - {fileID: 11400000, guid: 71b39cecb445e994db5afb668b6d01ba, type: 2}

@@ -559,6 +559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3728afc7f58975942a1e44ccd8199615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_items: {fileID: 11400000, guid: 1b2b80094ebad1346a92e89303f97f28, type: 2}
   m_itemPrefab: {fileID: 1137483606770294, guid: 3f8d9a2312e313e42a20cab50455e886,
     type: 2}
   m_itemProbability: 0.05
@@ -788,11 +789,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114453449396483226, guid: 590611ebab8031b48a0ba87a0fbe2558,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4857570218790424, guid: 590611ebab8031b48a0ba87a0fbe2558, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -825,18 +821,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 114453449396483226, guid: 590611ebab8031b48a0ba87a0fbe2558,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1137483606770294, guid: 3f8d9a2312e313e42a20cab50455e886,
-        type: 2}
-    - target: {fileID: 114453449396483226, guid: 590611ebab8031b48a0ba87a0fbe2558,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 1967666818236088, guid: 841cacc4351aa8842b34d43cd0aea312,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 590611ebab8031b48a0ba87a0fbe2558, type: 2}
   m_IsPrefabParent: 0

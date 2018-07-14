@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 
 public class NetworkItemSpawner : NetworkBehaviour
 {
+    [SerializeField] private ScriptableObjects.ItemContainer m_items = null;
     [SerializeField] private GameObject m_itemPrefab = null;
     [SerializeField] [Range(0, 1)] private float m_itemProbability = 0.05f;
 
@@ -16,6 +17,7 @@ public class NetworkItemSpawner : NetworkBehaviour
             Tile spawnTile = possibleSpawns[possibleSpawnIndex];
             GameObject itemObject =
                 Instantiate(m_itemPrefab, spawnTile.Sprite.transform.position, Quaternion.identity);
+            itemObject.GetComponent<NetworkItem>().Initialize(m_items.GetRandomItem());
             NetworkServer.Spawn(itemObject);
             possibleSpawns.RemoveAt(possibleSpawnIndex);
         }
