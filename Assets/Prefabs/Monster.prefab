@@ -86,6 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50fd3bac532a9b4e9edaee6965afd2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_monsters: {fileID: 11400000, guid: 4306aac1482cb31469ed6d94d77fe0df, type: 2}
+  MonsterIndex: 0
 --- !u!114 &114896930112968614
 MonoBehaviour:
   m_ObjectHideFlags: 1

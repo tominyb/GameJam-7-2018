@@ -4,8 +4,12 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(SpriteRenderer))]
 public class NetworkItem : NetworkBehaviour
 {
-    public void Initialize(ScriptableObjects.Item data)
+    [SerializeField] private ScriptableObjects.ItemContainer m_items = null;
+    [SyncVar] public int ItemIndex = -1;
+
+    public override void OnStartClient()
     {
-        GetComponent<SpriteRenderer>().sprite = data.Sprite;
+        base.OnStartClient();
+        GetComponent<SpriteRenderer>().sprite = m_items.Items[ItemIndex].Sprite;
     }
 }

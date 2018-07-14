@@ -4,16 +4,16 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(NetworkHealth))]
 public class NetworkMonster : NetworkBehaviour
 {
+    [SerializeField] private ScriptableObjects.MonsterContainer m_monsters = null;
+    [SyncVar] public int MonsterIndex;
+
     private NetworkHealth m_health;
     private int           m_damage;
 
-    private void Awake()
+    public override void OnStartClient()
     {
-
-    }
-
-    public void Initialize(ScriptableObjects.Monster data)
-    {
+        base.OnStartClient();
+        ScriptableObjects.Monster data        = m_monsters.Monsters[MonsterIndex];
         m_health                              = GetComponent<NetworkHealth>();
         m_health.MaxHealth                    = data.StartingHealth;
         m_damage                              = data.Damage;

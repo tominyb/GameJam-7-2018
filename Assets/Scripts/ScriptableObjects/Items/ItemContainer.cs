@@ -7,9 +7,9 @@ public class ItemContainer : ScriptableObject
 {
     public Item[] Items;
 
-    public Item GetRandomItem()
+    public int GetRandomItemIndex()
     {
-        return Items[Random.Range(0, Items.Length)];
+        return Random.Range(0, Items.Length);
     }
 }
 

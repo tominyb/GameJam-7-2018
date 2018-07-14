@@ -491,11 +491,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114491027149593990, guid: bcd9eca7cebf8c74f9b795d51261c31b,
-        type: 2}
-      propertyPath: m_timeBetweenTurns
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bcd9eca7cebf8c74f9b795d51261c31b, type: 2}
   m_IsPrefabParent: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Monster", menuName = "ScriptableObjects/Monster", order = 2)]
+    [CreateAssetMenu(fileName = "Monster", menuName = "ScriptableObjects/Monster", order = 3)]
     public class Monster : ScriptableObject
     {
         public Sprite Sprite;

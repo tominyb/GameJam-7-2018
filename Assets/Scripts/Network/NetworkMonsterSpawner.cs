@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class NetworkMonsterSpawner : NetworkBehaviour
 {
+    [SerializeField] private ScriptableObjects.MonsterContainer m_monsters;
     [SerializeField] private NetworkMonster m_monsterPrefab;
-    [SerializeField] private ScriptableObjects.Monster[] monsterDatas;
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class NetworkMonsterSpawner : NetworkBehaviour
             Tile spawnTile = availableTiles[index];
             availableTiles.RemoveAt(index);
             NetworkMonster monster = Instantiate(m_monsterPrefab, spawnTile.Sprite.transform.position, Quaternion.identity);
-            monster.Initialize(monsterDatas[Random.Range(0, monsterDatas.Length)]);
+            monster.MonsterIndex = m_monsters.GetRandomMonsterIndex();
             NetworkServer.Spawn(monster.gameObject);
         }
     }

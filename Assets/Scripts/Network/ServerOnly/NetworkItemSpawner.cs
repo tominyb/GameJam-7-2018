@@ -17,7 +17,7 @@ public class NetworkItemSpawner : NetworkBehaviour
             Tile spawnTile = possibleSpawns[possibleSpawnIndex];
             GameObject itemObject =
                 Instantiate(m_itemPrefab, spawnTile.Sprite.transform.position, Quaternion.identity);
-            itemObject.GetComponent<NetworkItem>().Initialize(m_items.GetRandomItem());
+            itemObject.GetComponent<NetworkItem>().ItemIndex = m_items.GetRandomItemIndex();
             NetworkServer.Spawn(itemObject);
             possibleSpawns.RemoveAt(possibleSpawnIndex);
         }
