@@ -30,6 +30,10 @@ public class NetworkPlayerController : NetworkBehaviour
         }
 
         m_player = GetComponent<Player>();
+        if (isLocalPlayer)
+        {
+            PlayerCamera.LocalPlayer = gameObject;
+        }
     }
 
     private void Update()
