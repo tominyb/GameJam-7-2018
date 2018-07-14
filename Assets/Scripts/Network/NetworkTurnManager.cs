@@ -4,9 +4,10 @@ using UnityEngine.Networking;
 
 public class NetworkTurnManager : NetworkBehaviour
 {
-    [SerializeField] private TurnTimeLeftBar m_turnTimeLeftBar = null;
     [SerializeField] private float m_turnTime = 5f;
     [SerializeField] private float m_timeBetweenTurns = 1f;
+
+    private TurnUI m_turnUI = null;
     private IEnumerator m_clientTimeLeftUpdate = null;
 
     // Server-only.
@@ -15,6 +16,8 @@ public class NetworkTurnManager : NetworkBehaviour
     // TODO: Re-start whenever a connection is initiated. Stalls currently if player exits game and re-joins.
     private void Start()
     {
+        m_turnUI = FindObjectOfType<TurnUI>();
+
         if (isServer)
         {
             m_serverData = gameObject.AddComponent<NetworkTurnManagerServerData>();
@@ -54,7 +57,7 @@ public class NetworkTurnManager : NetworkBehaviour
     private void RpcStartTurn(float turnTime)
     {
         m_turnTime = turnTime;
-        m_turnTimeLeftBar.TurnTime = turnTime;
+        m_turnUI.StartTurn(turnTime);
         m_clientTimeLeftUpdate = HandleTurnTimeLeftUpdates();
         StartCoroutine(m_clientTimeLeftUpdate);
     }
@@ -69,7 +72,7 @@ public class NetworkTurnManager : NetworkBehaviour
     [ClientRpc]
     private void RpcEndTurn()
     {
-        m_turnTimeLeftBar.TurnTimeLeft = 0f;
+        m_turnUI.EndTurn();
         if (m_clientTimeLeftUpdate == null)
         {
             return;
@@ -84,7 +87,7 @@ public class NetworkTurnManager : NetworkBehaviour
         for (float turnTimeLeft = m_turnTime;;)
         {
             turnTimeLeft = Mathf.Max(turnTimeLeft - Time.deltaTime, 0.0f);
-            m_turnTimeLeftBar.TurnTimeLeft = turnTimeLeft;
+            m_turnUI.TurnTimeLeft = turnTimeLeft;
             yield return null;
         }
     }
