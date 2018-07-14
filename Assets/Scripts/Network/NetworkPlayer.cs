@@ -21,6 +21,7 @@ public class NetworkPlayer : NetworkBehaviour
         if (isLocalPlayer)
         {
             m_turnUI = FindObjectOfType<TurnUI>();
+            PlayerCamera.LocalPlayer = gameObject;
         }
 
         if (isServer)
