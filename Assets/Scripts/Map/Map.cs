@@ -224,4 +224,10 @@ public class Map : MonoBehaviour
     {
         return m_tileSprites[type];
     }
+
+    public List<Tile> GetGroundTiles()
+    {
+        List<Tile> tiles = m_grid.Values.Where(t => t.Type == TileType.Ground).ToList();
+        return tiles;
+    }
 }

@@ -4,7 +4,8 @@ using UnityEngine.Networking;
 
 public class NetworkMonsterSpawner : NetworkBehaviour
 {
-    [SerializeField] private GameObject m_monsterPrefab;
+    [SerializeField] private NetworkMonster m_monsterPrefab;
+    [SerializeField] private ScriptableObjects.Monster[] monsterDatas;
 
     private void Start()
     {
@@ -12,8 +13,8 @@ public class NetworkMonsterSpawner : NetworkBehaviour
         {
             int x = Random.Range(-20, 20);
             int y = Random.Range(-20, 20);
-            GameObject monster = Instantiate(m_monsterPrefab, new Vector3(x, y, 0), Quaternion.identity);
-            NetworkServer.Spawn(monster);
+            NetworkMonster monster = Instantiate(m_monsterPrefab, new Vector3(x, y, 0), Quaternion.identity);
+            NetworkServer.Spawn(monster.gameObject);
         }
     }
 }
