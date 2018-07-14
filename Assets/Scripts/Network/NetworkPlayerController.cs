@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(NetworkPlayer))]
 public class NetworkPlayerController : NetworkBehaviour
 {
     private readonly Dictionary<KeyCode, Vector2Int> m_moveDeltas = new Dictionary<KeyCode, Vector2Int>
@@ -17,26 +17,11 @@ public class NetworkPlayerController : NetworkBehaviour
         { KeyCode.Keypad9, Vector2Int.right + Vector2Int.up }
     };
 
-    private Player m_player = null;
-
-    // Local player only.
-    private TurnUI m_turnUI = null;
-    // Server-only.
-    private NetworkTurnManager m_turnManager = null;
+    private NetworkPlayer m_player = null;
 
     private void Start()
     {
-        if (isLocalPlayer)
-        {
-            m_turnUI = FindObjectOfType<TurnUI>();
-        }
-
-        if (isServer)
-        {
-            m_turnManager = FindObjectOfType<NetworkTurnManager>();
-        }
-
-        m_player = GetComponent<Player>();
+        m_player = GetComponent<NetworkPlayer>();
     }
 
     private void Update()
@@ -50,35 +35,9 @@ public class NetworkPlayerController : NetworkBehaviour
         {
             if (Input.GetKeyDown(entry.Key))
             {
-                CmdTryMoveBy(entry.Value);
+                m_player.CmdTryMoveBy(entry.Value);
                 return; // Only one action per turn is allowed, so further checks would be unnecessary.
             }
-        }
-    }
-
-    // Vector2Int is not supported as an argument to Remote Actions (ClientRpc, Command).
-    // Therefore, directions are sent as Vector2's with proper conversions done in both ends.
-
-    [Command]
-    private void CmdTryMoveBy(Vector2 delta)
-    {
-        int clientConnectionId = connectionToClient.connectionId;
-        if (!m_turnManager.IsActionExpectedFromClient(clientConnectionId))
-        {
-            return;
-        }
-        RpcMoveBy(delta);
-        m_turnManager.FinishClientTurn(connectionToClient.connectionId);
-    }
-
-    [ClientRpc]
-    private void RpcMoveBy(Vector2 delta)
-    {
-        m_player.Move(Vector2Int.RoundToInt(delta));
-
-        if (m_turnUI != null)
-        {
-            m_turnUI.FinishOwnTurn();
         }
     }
 }
