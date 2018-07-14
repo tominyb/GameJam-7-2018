@@ -44,28 +44,25 @@ public class NetworkPlayer : NetworkBehaviour
             return;
         }
 
-        Vector2Int newPosition = m_position + Vector2Int.RoundToInt(delta);
-        if (!CanMoveTo(newPosition))
+        Vector2Int targetPosition = m_position + Vector2Int.RoundToInt(delta);
+
+        Tile tile = m_map.GetTile(targetPosition);
+        if (tile == null)
         {
             return;
         }
 
-        // TODO: Handle items and combat.
+        if (tile.Type != TileType.Door)
+        {
+            RpcSetPosition(targetPosition);
+        }
+        else
+        {
+            tile.ChangeType(TileType.OpenDoor);
+            RpcOpenDoorAtPosition(targetPosition);
+        }
 
         m_turnManager.FinishClientTurn(connectionId);
-        RpcSetPosition(newPosition);
-    }
-
-    [Server]
-    private bool CanMoveTo(Vector2Int position)
-    {
-        return DoesTileExistAtPosition(position) && !IsPositionOccupiedByAnotherPlayer(position);
-    }
-
-    [Server]
-    private bool DoesTileExistAtPosition(Vector2Int position)
-    {
-        return m_map.GetTile(position) != null;
     }
 
     [Server]
@@ -87,6 +84,19 @@ public class NetworkPlayer : NetworkBehaviour
     {
         m_position = Vector2Int.RoundToInt(position);
         transform.position = m_map.GetTile(Vector2Int.RoundToInt(position)).Sprite.transform.position;
+        FinishTurn();
+    }
+
+    [ClientRpc]
+    private void RpcOpenDoorAtPosition(Vector2 position)
+    {
+        m_map.GetTile(Vector2Int.RoundToInt(position)).ChangeType(TileType.OpenDoor);
+        FinishTurn();
+    }
+
+    [Client]
+    private void FinishTurn()
+    {
         m_turnUI?.FinishOwnTurn();
     }
 }

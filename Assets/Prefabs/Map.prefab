@@ -54,3 +54,6 @@ MonoBehaviour:
   m_tilePrefab: {fileID: 1789328765384020, guid: f9293ddebc6bbc34bb57fe5cb94f8207,
     type: 2}
   m_gridSize: {x: 10, y: 10}
+  m_groundSprite: {fileID: 21300000, guid: d5140ef0cc28c63409821a0f8b6e7db3, type: 3}
+  m_doorSprite: {fileID: 21300000, guid: f726bab7781cfce4ca02884e12651486, type: 3}
+  m_openDoorSprite: {fileID: 21300000, guid: de5649ccd00ca14428ec371c8a49d3a4, type: 3}
