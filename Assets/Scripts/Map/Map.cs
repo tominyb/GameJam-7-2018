@@ -10,6 +10,8 @@ public class Map : MonoBehaviour
 
     [SerializeField] private GameObject m_tilePrefab;
     [SerializeField] private Vector2Int m_gridSize;
+    [SerializeField] private Sprite     m_groundSprite;
+    [SerializeField] private Sprite     m_doorSprite;
 
     private List<Bounds> m_roomBounds = new List<Bounds>();
     private float m_tileWidth;
@@ -88,14 +90,17 @@ public class Map : MonoBehaviour
         }
     }
 
-    private void GenerateTile(Transform tileParent, Vector2Int tilePosition, TileType tileType = TileType.Ground)
+    private Tile GenerateTile(Transform tileParent, Vector2Int tilePosition, TileType tileType = TileType.Ground)
     {
+        Tile tile = null;
         if (!m_grid.ContainsKey(tilePosition))
         {
             GameObject tileObject = Instantiate(m_tilePrefab, new Vector3(tilePosition.x * m_tileWidth, tilePosition.y * m_tileHeight, 0.0f),
                                                 Quaternion.identity, tileParent);
-            m_grid.Add(tilePosition, new Tile(tileObject, tileType));
+            tile = new Tile(tileObject, tileType);
+            m_grid.Add(tilePosition, tile);
         }
+        return tile;
     }
 
     private bool DoesRoomIntersectWithAnother(Bounds room)
@@ -131,17 +136,37 @@ public class Map : MonoBehaviour
     {
         Vector2Int currentPosition = startingPosition;
         Vector2Int direction       = targetPosition - startingPosition;
+        List<Tile> corridorTiles   = new List<Tile>();
+        Tile tile                  = null;
 
         for (int i = 0; i < Mathf.Abs(direction.x); ++i)
         {
             currentPosition += Vector2Int.right * Mathf.RoundToInt(Mathf.Sign(direction.x));
-            GenerateTile(corridorParent, currentPosition);
+            tile = GenerateTile(corridorParent, currentPosition);
+            if (tile != null)
+            {
+                corridorTiles.Add(tile);
+            }
         }
 
         for (int j = 0; j < Mathf.Abs(direction.y); ++j)
         {
             currentPosition += Vector2Int.up * Mathf.RoundToInt(Mathf.Sign(direction.y));
-            GenerateTile(corridorParent, currentPosition);
+            tile = GenerateTile(corridorParent, currentPosition);
+            if (tile != null)
+            {
+                corridorTiles.Add(tile);
+            }
+        }
+        
+        if (Random.value > 0.5f)
+        {
+            corridorTiles[0].ChangeType(TileType.Door, m_doorSprite);
+        }
+
+        if (Random.value > 0.5f)
+        {
+            corridorTiles[corridorTiles.Count - 1].ChangeType(TileType.Door, m_doorSprite);
         }
     }
 
