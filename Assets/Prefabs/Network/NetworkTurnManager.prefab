@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1076037034958812}
+  m_IsPrefabParent: 1
+--- !u!1 &1076037034958812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4924597393721502}
+  - component: {fileID: 114484875992921664}
+  - component: {fileID: 114491027149593990}
+  - component: {fileID: 114815195354226166}
+  m_Layer: 0
+  m_Name: NetworkTurnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4924597393721502
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1076037034958812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114484875992921664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1076037034958812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 188
+    i1: 217
+    i2: 236
+    i3: 167
+    i4: 206
+    i5: 191
+    i6: 140
+    i7: 116
+    i8: 249
+    i9: 183
+    i10: 149
+    i11: 213
+    i12: 18
+    i13: 97
+    i14: 195
+    i15: 27
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114491027149593990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1076037034958812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e519dcd89e21241962c5d17dccda5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_turnUI: {fileID: 114815195354226166}
+  m_turnTime: 5
+  m_timeBetweenTurns: 1
+--- !u!114 &114815195354226166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1076037034958812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdec13c060ccf714c837b1e6fdff71b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_turnTimeLeftBar: {fileID: 0}
+  m_turnTooltip: {fileID: 0}

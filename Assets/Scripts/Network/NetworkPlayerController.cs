@@ -19,11 +19,18 @@ public class NetworkPlayerController : NetworkBehaviour
 
     private Player m_player = null;
 
+    // Local player only.
+    private TurnUI m_turnUI = null;
     // Server-only.
     private NetworkTurnManager m_turnManager = null;
 
     private void Start()
     {
+        if (isLocalPlayer)
+        {
+            m_turnUI = FindObjectOfType<TurnUI>();
+        }
+
         if (isServer)
         {
             m_turnManager = FindObjectOfType<NetworkTurnManager>();
@@ -68,5 +75,10 @@ public class NetworkPlayerController : NetworkBehaviour
     private void RpcMoveBy(Vector2 delta)
     {
         m_player.Move(Vector2Int.RoundToInt(delta));
+
+        if (m_turnUI != null)
+        {
+            m_turnUI.FinishOwnTurn();
+        }
     }
 }
