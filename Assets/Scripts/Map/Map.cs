@@ -12,6 +12,7 @@ public class Map : MonoBehaviour
     [SerializeField] private Vector2Int m_gridSize;
     [SerializeField] private Sprite     m_groundSprite;
     [SerializeField] private Sprite     m_doorSprite;
+    [SerializeField] private Sprite     m_openDoorSprite;
 
     private List<Bounds> m_roomBounds = new List<Bounds>();
     private float m_tileWidth;
@@ -31,6 +32,7 @@ public class Map : MonoBehaviour
     private const float MaxDistanceToAnotherRoom = 3.0f;
     
     private Dictionary<Vector2Int, Tile> m_grid = new Dictionary<Vector2Int, Tile>();
+    private Dictionary<TileType, Sprite> m_tileSprites;
 
     private void Awake()
     {
@@ -38,6 +40,8 @@ public class Map : MonoBehaviour
         Bounds tileBounds = m_tilePrefab.GetComponent<Renderer>().bounds;
         m_tileWidth       = tileBounds.size.x;
         m_tileHeight      = tileBounds.size.y;
+        m_tileSprites     = new Dictionary<TileType, Sprite> { { TileType.Ground, m_groundSprite}, { TileType.Door, m_doorSprite},
+                                                               { TileType.OpenDoor, m_openDoorSprite} };
         GenerateMap();
     }
 
@@ -161,12 +165,12 @@ public class Map : MonoBehaviour
         
         if (Random.value > 0.5f)
         {
-            corridorTiles[0].ChangeType(TileType.Door, m_doorSprite);
+            corridorTiles[0].ChangeType(TileType.Door);
         }
 
         if (Random.value > 0.5f)
         {
-            corridorTiles[corridorTiles.Count - 1].ChangeType(TileType.Door, m_doorSprite);
+            corridorTiles[corridorTiles.Count - 1].ChangeType(TileType.Door);
         }
     }
 
@@ -215,5 +219,10 @@ public class Map : MonoBehaviour
             }
         }
         return closestTile;
+    }
+
+    public Sprite GetSpriteByTileType(TileType type)
+    {
+        return m_tileSprites[type];
     }
 }

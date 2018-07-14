@@ -8,9 +8,9 @@ public class Tile
 
     public Tile(GameObject sprite, TileType type) { Sprite = sprite; Type = type; }
 
-    public void ChangeType(TileType type, Sprite sprite)
+    public void ChangeType(TileType type)
     {
         Type                                         = type;
-        Sprite.GetComponent<SpriteRenderer>().sprite = sprite;
+        Sprite.GetComponent<SpriteRenderer>().sprite = Map.I.GetSpriteByTileType(type);
     }
 }
