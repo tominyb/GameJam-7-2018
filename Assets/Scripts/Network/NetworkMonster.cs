@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
 
 [RequireComponent(typeof(NetworkHealth))]
 public class NetworkMonster : NetworkBehaviour
