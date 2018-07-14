@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Player))]
 public class NetworkPlayerController : NetworkBehaviour
 {
-    private readonly Dictionary<KeyCode, Vector2Int> m_commandDirections = new Dictionary<KeyCode, Vector2Int>
+    private readonly Dictionary<KeyCode, Vector2Int> m_moveDeltas = new Dictionary<KeyCode, Vector2Int>
     {
         { KeyCode.Keypad1, Vector2Int.left + Vector2Int.down },
         { KeyCode.Keypad2, Vector2Int.down },
@@ -39,51 +39,34 @@ public class NetworkPlayerController : NetworkBehaviour
             return;
         }
 
-        foreach (var entry in m_commandDirections)
+        foreach (var entry in m_moveDeltas)
         {
             if (Input.GetKeyDown(entry.Key))
             {
-                NotifyDirection(entry.Value);
-                return;
+                CmdTryMoveBy(entry.Value);
+                return; // Only one action per turn is allowed, so further checks would only cause unnecessary traffic.
             }
         }
-    }
-
-    [Client]
-    private void NotifyDirection(Vector2Int direction)
-    {
-        CmdNotifyDirectionToServer(direction);
     }
 
     // Vector2Int is not supported as an argument to Remote Actions (ClientRpc, Command).
     // Therefore, directions are sent as Vector2's with proper conversions done in both ends.
 
-    [ClientRpc]
-    private void RpcNotifyDirectionToClients(Vector2 directionFloat)
-    {
-        Debug.Log("Server notify received: " + Vector2Int.RoundToInt(directionFloat));
-        Move(Vector2Int.RoundToInt(directionFloat));
-    }
-
     [Command]
-    private void CmdNotifyDirectionToServer(Vector2 directionFloat)
+    private void CmdTryMoveBy(Vector2 delta)
     {
-        Debug.Log("Client notify received: " + Vector2Int.RoundToInt(directionFloat));
         int clientConnectionId = connectionToClient.connectionId;
-        if (m_turnManager.IsActionExpectedFromClient(clientConnectionId))
+        if (!m_turnManager.IsActionExpectedFromClient(clientConnectionId))
         {
-            RpcNotifyDirectionToClients(directionFloat);
-            m_turnManager.FinishClientTurn(connectionToClient.connectionId);
+            return;
         }
-        else
-        {
-            Debug.Log("Notify dismissed. No action is being expected from client.");
-        }
+        RpcMoveBy(delta);
+        m_turnManager.FinishClientTurn(connectionToClient.connectionId);
     }
 
-    private void Move(Vector2Int direction)
+    [ClientRpc]
+    private void RpcMoveBy(Vector2 delta)
     {
-        Debug.Log("Moving " + name + " (" + gameObject.GetInstanceID() + ") by: " + direction);
-        m_player.Move(direction);
+        m_player.Move(Vector2Int.RoundToInt(delta));
     }
 }

@@ -1,24 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEngine.Networking;
 
 public class CustomNetworkManager : NetworkManager
 {
-    private readonly HashSet<int> m_clientConnectionIds = new HashSet<int>();
-    public HashSet<int> ClientConnectionIds { get { return m_clientConnectionIds; } }
+    public readonly HashSet<int> ClientConnectionIds = new HashSet<int>();
 
     public override void OnServerConnect(NetworkConnection conn)
     {
         base.OnServerConnect(conn);
-        m_clientConnectionIds.Add(conn.connectionId);
-        Debug.Log("Client " + conn.connectionId + " connected!");
+        ClientConnectionIds.Add(conn.connectionId);
     }
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         base.OnServerDisconnect(conn);
-        m_clientConnectionIds.Remove(conn.connectionId);
-        Debug.Log("Client " + conn.connectionId + " disconnected!");
+        ClientConnectionIds.Remove(conn.connectionId);
     }
 }

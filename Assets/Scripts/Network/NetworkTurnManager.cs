@@ -20,11 +20,13 @@ public class NetworkTurnManager : NetworkBehaviour
     // TODO: Re-start whenever a connection is initiated. Stalls currently if player exits game and re-joins.
     private void Start()
     {
-        if (isServer)
+        if (!isServer)
         {
-            m_clientConnectionIds = m_networkManager.ClientConnectionIds;
-            StartCoroutine(HandleTurns());
+            return;
         }
+
+        m_clientConnectionIds = m_networkManager.ClientConnectionIds;
+        StartCoroutine(HandleTurns());
     }
 
     [Server]
@@ -53,10 +55,9 @@ public class NetworkTurnManager : NetworkBehaviour
     [ClientRpc]
     private void RpcStartTurn(float turnTime)
     {
-        Debug.Log("Turn started.");
         m_turnTime = turnTime;
         m_turnTimeLeftBar.TurnTime = turnTime;
-        m_clientTimeLeftUpdate = HandleTurnTimeUpdates();
+        m_clientTimeLeftUpdate = HandleTurnTimeLeftUpdates();
         StartCoroutine(m_clientTimeLeftUpdate);
     }
 
@@ -76,17 +77,17 @@ public class NetworkTurnManager : NetworkBehaviour
     [ClientRpc]
     private void RpcEndTurn()
     {
-        Debug.Log("Turn ended.");
         m_turnTimeLeftBar.TurnTimeLeft = 0f;
-        if (m_clientTimeLeftUpdate != null)
+        if (m_clientTimeLeftUpdate == null)
         {
-            StopCoroutine(m_clientTimeLeftUpdate);
-            m_clientTimeLeftUpdate = null;
+            return;
         }
+        StopCoroutine(m_clientTimeLeftUpdate);
+        m_clientTimeLeftUpdate = null;
     }
 
     [Client]
-    private IEnumerator HandleTurnTimeUpdates()
+    private IEnumerator HandleTurnTimeLeftUpdates()
     {
         for (float turnTimeLeft = m_turnTime;;)
         {
@@ -105,7 +106,6 @@ public class NetworkTurnManager : NetworkBehaviour
     [Server]
     public void FinishClientTurn(int clientConnectionId)
     {
-        Debug.Log("Client (" + clientConnectionId + ") finished their turn.");
         m_finishedClientConnectionIds.Add(clientConnectionId);
     }
 }
