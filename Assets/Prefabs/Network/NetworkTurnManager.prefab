@@ -84,5 +84,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e519dcd89e21241962c5d17dccda5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_turnTime: 5
-  m_timeBetweenTurns: 1
+  m_turnTime: 3
+  m_timeBetweenTurns: 0
