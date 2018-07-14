@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1453692116270716}
+  m_IsPrefabParent: 1
+--- !u!1 &1453692116270716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4828272174914928}
+  - component: {fileID: 114490675159583600}
+  - component: {fileID: 114708960041788632}
+  m_Layer: 0
+  m_Name: NetworkMonsterSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4828272174914928
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453692116270716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114490675159583600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453692116270716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 26
+    i1: 17
+    i2: 76
+    i3: 45
+    i4: 206
+    i5: 58
+    i6: 181
+    i7: 180
+    i8: 232
+    i9: 193
+    i10: 246
+    i11: 75
+    i12: 149
+    i13: 0
+    i14: 58
+    i15: 205
+  m_ServerOnly: 1
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114708960041788632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453692116270716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e8eaab018916d4eb92b731c9035644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_monsterPrefab: {fileID: 114140963168073014, guid: 841cacc4351aa8842b34d43cd0aea312,
+    type: 2}
+  monsterDatas:
+  - {fileID: 11400000, guid: cc946f3ca79c1754fbfc98626a3c5453, type: 2}
+  - {fileID: 11400000, guid: d0d04bde4f79bf24db0fde0fe76620d5, type: 2}
+  - {fileID: 11400000, guid: 277fba89275e0e147b96450b4a451446, type: 2}
