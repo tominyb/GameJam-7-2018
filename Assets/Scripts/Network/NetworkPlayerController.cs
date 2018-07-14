@@ -59,8 +59,16 @@ public class NetworkPlayerController : NetworkBehaviour
     private void CmdNotifyDirectionToServer(Vector2 directionFloat)
     {
         Debug.Log("Client notify received: " + Vector2Int.RoundToInt(directionFloat));
-        RpcNotifyDirectionToClients(directionFloat);
-        m_turnManager.FinishClientTurn(connectionToClient.connectionId);
+        int clientConnectionId = connectionToClient.connectionId;
+        if (m_turnManager.IsActionExpectedFromClient(clientConnectionId))
+        {
+            RpcNotifyDirectionToClients(directionFloat);
+            m_turnManager.FinishClientTurn(connectionToClient.connectionId);
+        }
+        else
+        {
+            Debug.Log("Notify dismissed. No action is being expected from client.");
+        }
     }
 
     private void Move(Vector2Int direction)

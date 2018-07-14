@@ -14,13 +14,14 @@ public class NetworkTurnManager : NetworkBehaviour
     // Server-only. Consider moving to a separate class.
     [SerializeField] private CustomNetworkManager m_networkManager = null;
     private HashSet<int> m_clientConnectionIds = null;
-    private HashSet<int> m_finishedClientConnectionIds = new HashSet<int>();
+    private readonly HashSet<int> m_finishedClientConnectionIds = new HashSet<int>();
+    private bool m_turnActive = false;
 
     private void Start()
     {
         if (isServer)
         {
-            m_clientConnectionIds = m_networkManager.ClientIds;
+            m_clientConnectionIds = m_networkManager.ClientConnectionIds;
             StartCoroutine(HandleTurns());
         }
     }
@@ -45,6 +46,7 @@ public class NetworkTurnManager : NetworkBehaviour
     {
         m_finishedClientConnectionIds.Clear();
         RpcStartTurn(m_turnTime);
+        m_turnActive = true;
     }
 
     [ClientRpc]
@@ -66,6 +68,7 @@ public class NetworkTurnManager : NetworkBehaviour
     [Server]
     private void EndTurn()
     {
+        m_turnActive = false;
         RpcEndTurn();
     }
 
@@ -93,10 +96,15 @@ public class NetworkTurnManager : NetworkBehaviour
     }
 
     [Server]
-    public void FinishClientTurn(int clientId)
+    public bool IsActionExpectedFromClient(int clientConnectionId)
     {
-        Debug.Log(m_clientConnectionIds.Count);
-        Debug.Log("Client (" + clientId + ") finished their turn.");
-        m_finishedClientConnectionIds.Add(clientId);
+        return m_turnActive && !m_finishedClientConnectionIds.Contains(clientConnectionId);
+    }
+
+    [Server]
+    public void FinishClientTurn(int clientConnectionId)
+    {
+        Debug.Log("Client (" + clientConnectionId + ") finished their turn.");
+        m_finishedClientConnectionIds.Add(clientConnectionId);
     }
 }
