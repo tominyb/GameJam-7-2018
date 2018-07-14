@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class Map : MonoBehaviour
 {
@@ -165,11 +166,13 @@ public class Map : MonoBehaviour
         if (Random.value > 0.5f)
         {
             corridorTiles[0].ChangeType(TileType.Door);
+            Destroy(corridorTiles[0].Sprite.GetComponent<NetworkStartPosition>());
         }
 
-        if (Random.value > 0.5f)
+        if (corridorTiles.Count > 1 && Random.value > 0.5f)
         {
             corridorTiles[corridorTiles.Count - 1].ChangeType(TileType.Door);
+            Destroy(corridorTiles[corridorTiles.Count - 1].Sprite.GetComponent<NetworkStartPosition>());
         }
     }
 
