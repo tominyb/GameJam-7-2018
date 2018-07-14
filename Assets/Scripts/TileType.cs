@@ -1,1 +1,1 @@
-﻿public enum TileType { Ground, Door, Wall }
+﻿public enum TileType { Ground, Door }

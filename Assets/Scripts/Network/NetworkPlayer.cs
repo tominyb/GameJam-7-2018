@@ -32,21 +32,28 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     public void CmdTryMoveBy(Vector2 delta)
     {
-        if (!m_turnManager.IsActionExpectedFromClient(connectionToClient.connectionId))
+        int connectionId = connectionToClient.connectionId;
+        if (!m_turnManager.IsActionExpectedFromClient(connectionId))
         {
             return;
         }
 
         Vector2Int newPosition = m_position + Vector2Int.RoundToInt(delta);
-
-        Tile targetTile = m_map.GetTile(newPosition);
-        if (targetTile == null)
+        if (!CanMoveTo(newPosition))
         {
             return;
         }
 
-        m_turnManager.FinishClientTurn(connectionToClient.connectionId);
+        // TODO: Handle items and combat.
+
+        m_turnManager.FinishClientTurn(connectionId);
         RpcSetPosition(newPosition);
+    }
+
+    [Server]
+    private bool CanMoveTo(Vector2Int position)
+    {
+        return m_map.GetTile(position) != null;
     }
 
     [ClientRpc]
