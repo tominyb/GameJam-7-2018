@@ -46,6 +46,11 @@ public class NetworkPlayer : NetworkBehaviour
 
         Vector2Int targetPosition = m_position + Vector2Int.RoundToInt(delta);
 
+        if (IsPositionOccupiedByAnotherPlayer(targetPosition))
+        {
+            return;
+        }
+
         Tile tile = m_map.GetTile(targetPosition);
         if (tile == null)
         {
