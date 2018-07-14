@@ -22,11 +22,14 @@ public class Map : MonoBehaviour
     private void GenerateMap()
     {
         Bounds tileBounds = m_tilePrefab.GetComponent<Renderer>().bounds;
+        Vector3 tileOffset =
+            (Vector2)Camera.main.transform.position - tileBounds.size * (Vector2)m_gridSize * 0.5f;
         for (int i = 0; i < m_gridSize.x; ++i)
         {
             for (int j = 0; j < m_gridSize.y; ++j)
             {
-                GameObject tileObject = Instantiate(m_tilePrefab, new Vector3(i * tileBounds.size.x, j * tileBounds.size.y, 0.0f ),
+                GameObject tileObject = Instantiate(m_tilePrefab,
+                                                    tileOffset + new Vector3(i * tileBounds.size.x, j * tileBounds.size.y, 0.0f ),
                                                     Quaternion.identity, transform);
                 m_grid.Add(new Vector2Int(i, j), new Tile(tileObject, TileType.Ground));
             }

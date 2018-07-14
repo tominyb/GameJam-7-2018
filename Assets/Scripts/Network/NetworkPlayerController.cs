@@ -44,7 +44,7 @@ public class NetworkPlayerController : NetworkBehaviour
             if (Input.GetKeyDown(entry.Key))
             {
                 CmdTryMoveBy(entry.Value);
-                return; // Only one action per turn is allowed, so further checks would only cause unnecessary traffic.
+                return; // Only one action per turn is allowed, so further checks would be unnecessary.
             }
         }
     }
