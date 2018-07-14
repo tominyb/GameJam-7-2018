@@ -6,11 +6,17 @@ public class NetworkPlayerController : NetworkBehaviour
 {
     private readonly Dictionary<KeyCode, Vector2Int> m_commandDirections = new Dictionary<KeyCode, Vector2Int>
     {
-        { KeyCode.A, Vector2Int.left },
-        { KeyCode.D, Vector2Int.right },
-        { KeyCode.S, Vector2Int.down },
-        { KeyCode.W, Vector2Int.up }
+        { KeyCode.Keypad1, Vector2Int.left + Vector2Int.down },
+        { KeyCode.Keypad2, Vector2Int.down },
+        { KeyCode.Keypad3, Vector2Int.right + Vector2Int.down },
+        { KeyCode.Keypad4, Vector2Int.left },
+        { KeyCode.Keypad6, Vector2Int.right },
+        { KeyCode.Keypad7, Vector2Int.left + Vector2Int.up },
+        { KeyCode.Keypad8, Vector2Int.up },
+        { KeyCode.Keypad9, Vector2Int.right + Vector2Int.up }
     };
+
+    private Player m_player = null;
 
     // Server-only.
     private NetworkTurnManager m_turnManager = null;
@@ -21,6 +27,8 @@ public class NetworkPlayerController : NetworkBehaviour
         {
             m_turnManager = FindObjectOfType<NetworkTurnManager>();
         }
+
+        m_player = GetComponent<Player>();
     }
 
     private void Update()
@@ -35,6 +43,7 @@ public class NetworkPlayerController : NetworkBehaviour
             if (Input.GetKeyDown(entry.Key))
             {
                 NotifyDirection(entry.Value);
+                return;
             }
         }
     }
@@ -74,6 +83,6 @@ public class NetworkPlayerController : NetworkBehaviour
     private void Move(Vector2Int direction)
     {
         Debug.Log("Moving " + name + " (" + gameObject.GetInstanceID() + ") by: " + direction);
-        transform.position = Vector3Int.RoundToInt(transform.position) + new Vector3Int(direction.x, direction.y, 0);
+        m_player.Move(direction);
     }
 }

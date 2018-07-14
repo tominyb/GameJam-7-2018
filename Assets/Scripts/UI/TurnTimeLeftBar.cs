@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class TurnTimeLeftBar : MonoBehaviour
@@ -13,7 +12,6 @@ public class TurnTimeLeftBar : MonoBehaviour
 
     private void Start()
     {
-        m_slider = GetComponent<Slider>();
         m_slider.onValueChanged.AddListener(delegate { UpdateSliderColorAccordingToValuePercentage(); });
         m_sliderFillImage = m_slider.fillRect.GetComponent<Image>();
     }

@@ -26,7 +26,7 @@ public class Map : MonoBehaviour
         {
             for (int j = 0; j < m_gridSize.y; ++j)
             {
-                GameObject tileObject = Instantiate(m_tilePrefab, new Vector3(i * tileBounds.size.x, -j * tileBounds.size.y, 0.0f ),
+                GameObject tileObject = Instantiate(m_tilePrefab, new Vector3(i * tileBounds.size.x, j * tileBounds.size.y, 0.0f ),
                                                     Quaternion.identity, transform);
                 m_grid.Add(new Vector2Int(i, j), new Tile(tileObject, TileType.Ground));
             }
@@ -38,5 +38,21 @@ public class Map : MonoBehaviour
         Tile tile = null;
         m_grid.TryGetValue(position, out tile);
         return tile;
+    }
+
+    public Vector2Int GetClosestTile(Vector3 position)
+    {
+        float distance = Mathf.Infinity;
+        Vector2Int closestTile = Vector2Int.zero;
+        foreach (var entry in m_grid)
+        {
+            float newDistance = Vector3.Distance(position, entry.Value.Sprite.transform.position);
+            if (newDistance < distance)
+            {
+                distance = newDistance;
+                closestTile = entry.Key;
+            }
+        }
+        return closestTile;
     }
 }

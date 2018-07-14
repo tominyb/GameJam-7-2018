@@ -17,6 +17,7 @@ public class NetworkTurnManager : NetworkBehaviour
     private readonly HashSet<int> m_finishedClientConnectionIds = new HashSet<int>();
     private bool m_turnActive = false;
 
+    // TODO: Re-start whenever a connection is initiated. Stalls currently if player exits game and re-joins.
     private void Start()
     {
         if (isServer)
