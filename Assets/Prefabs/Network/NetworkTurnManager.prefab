@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4924597393721502}
   - component: {fileID: 114484875992921664}
   - component: {fileID: 114491027149593990}
-  - component: {fileID: 114815195354226166}
   m_Layer: 0
   m_Name: NetworkTurnManager
   m_TagString: Untagged
@@ -85,19 +84,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e519dcd89e21241962c5d17dccda5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_turnUI: {fileID: 114815195354226166}
   m_turnTime: 5
   m_timeBetweenTurns: 1
---- !u!114 &114815195354226166
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1076037034958812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdec13c060ccf714c837b1e6fdff71b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_turnTimeLeftBar: {fileID: 0}
-  m_turnTooltip: {fileID: 0}
