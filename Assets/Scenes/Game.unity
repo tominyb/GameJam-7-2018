@@ -756,6 +756,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114453449396483226, guid: 590611ebab8031b48a0ba87a0fbe2558,
+        type: 2}
+      propertyPath: m_PlayerSpawnMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114453449396483226, guid: 590611ebab8031b48a0ba87a0fbe2558,
+        type: 2}
+      propertyPath: m_AutoCreatePlayer
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 590611ebab8031b48a0ba87a0fbe2558, type: 2}
   m_IsPrefabParent: 0

@@ -19,8 +19,8 @@ public class Map : MonoBehaviour
     private const int RoomMaxWidth     = 10;
     private const int RoomMinHeight    = 4;
     private const int RoomMaxHeight    = 7;
-    private const int MinNumberOfRooms = 5;
-    private const int MaxNumberOfRooms = 8;
+    private const int MinNumberOfRooms = 1;
+    private const int MaxNumberOfRooms = 2;
     private const int MinX             = -25;
     private const int MaxX             = 25;
     private const int MinY             = -25;

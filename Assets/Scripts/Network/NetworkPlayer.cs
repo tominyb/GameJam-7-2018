@@ -12,6 +12,9 @@ public class NetworkPlayer : NetworkBehaviour
     private TurnUI m_turnUI = null;
     // Server-only.
     private NetworkTurnManager m_turnManager = null;
+    private CustomNetworkManager m_networkManager = null;
+
+    public Vector2Int Position { get { return m_position; } }
 
     private void Start()
     {
@@ -23,11 +26,13 @@ public class NetworkPlayer : NetworkBehaviour
             m_turnUI = FindObjectOfType<TurnUI>();
             PlayerCamera.LocalPlayer = gameObject;
         }
+    }
 
-        if (isServer)
-        {
-            m_turnManager = FindObjectOfType<NetworkTurnManager>();
-        }
+    public override void OnStartServer()
+    {
+        m_networkManager = FindObjectOfType<CustomNetworkManager>();
+        m_networkManager.ClientPlayers.Add(connectionToClient.connectionId, this);
+        m_turnManager = FindObjectOfType<NetworkTurnManager>();
     }
 
     [Command]
@@ -54,7 +59,27 @@ public class NetworkPlayer : NetworkBehaviour
     [Server]
     private bool CanMoveTo(Vector2Int position)
     {
+        return DoesTileExistAtPosition(position) && !IsPositionOccupiedByAnotherPlayer(position);
+    }
+
+    [Server]
+    private bool DoesTileExistAtPosition(Vector2Int position)
+    {
         return m_map.GetTile(position) != null;
+    }
+
+    [Server]
+    private bool IsPositionOccupiedByAnotherPlayer(Vector2Int position)
+    {
+        var players = m_networkManager.ClientPlayers;
+        foreach (var entry in players)
+        {
+            if (entry.Value.Position == position)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     [ClientRpc]
