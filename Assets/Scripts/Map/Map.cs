@@ -9,7 +9,6 @@ public class Map : MonoBehaviour
     public static Map I;
 
     [SerializeField] private GameObject m_tilePrefab;
-    [SerializeField] private Vector2Int m_gridSize;
     [SerializeField] private Sprite     m_groundSprite;
     [SerializeField] private Sprite     m_doorSprite;
     [SerializeField] private Sprite     m_openDoorSprite;
