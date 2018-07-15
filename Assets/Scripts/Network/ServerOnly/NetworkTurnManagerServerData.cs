@@ -56,13 +56,16 @@ public class NetworkTurnManagerServerData : MonoBehaviour
             for (int i = 0; i < m_directions.Length; ++i)
             {
                 Vector2Int targetTile = currentPosition + m_directions[i];
-                action = GetMonsterAction(targetTile, newMonsterPositions, players);
-                if (action == MonsterAction.Move)
+                MonsterAction tempAction = GetMonsterAction(targetTile, newMonsterPositions, players);
+   
+                if (tempAction == MonsterAction.Move)
                 {
+                    action = tempAction;
                     targetTiles.Add(targetTile);
                 }
-                else if (action == MonsterAction.Attack)
+                else if (tempAction == MonsterAction.Attack)
                 {
+                    action = tempAction;
                     targetTiles.Clear();
                     targetTiles.Add(targetTile);
                     break;
@@ -110,7 +113,7 @@ public class NetworkTurnManagerServerData : MonoBehaviour
         }
 
         if (tile.Type != TileType.Door && !monsters.ContainsKey(tilePosition))
-        {
+        { 
             return MonsterAction.Move;
         }
 
