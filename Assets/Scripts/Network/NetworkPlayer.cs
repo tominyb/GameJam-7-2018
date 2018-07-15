@@ -62,14 +62,11 @@ public class NetworkPlayer : NetworkBehaviour
 
         if (tile.Type != TileType.Door)
         {
-            NetworkItem item = m_map.GetItemAtPosition(targetPosition);
-            if (item != null)
+            HandlePossibleItemAtTargetPosition(targetPosition);
+            if (!HandlePossibleMonsterAtTargetPosition(targetPosition))
             {
-                m_health.RestoreHealth(item.HealthRestoreAmount);
-                m_map.RemoveItemAtPosition(targetPosition);
-                NetworkServer.Destroy(item.gameObject);
+                RpcSetPosition(targetPosition);
             }
-            RpcSetPosition(targetPosition);
         }
         else
         {
@@ -78,6 +75,40 @@ public class NetworkPlayer : NetworkBehaviour
         }
 
         m_turnManager.FinishClientTurn(connectionId);
+    }
+
+    [Server]
+    private void HandlePossibleItemAtTargetPosition(Vector2Int targetPosition)
+    {
+        NetworkItem item = m_map.GetItemAtPosition(targetPosition);
+        if (item == null)
+        {
+            return;
+        }
+        m_health.RestoreHealth(item.HealthRestoreAmount);
+        m_map.RemoveItemAtPosition(targetPosition);
+        NetworkServer.Destroy(item.gameObject);
+    }
+
+    [Server]
+    private bool HandlePossibleMonsterAtTargetPosition(Vector2Int targetPosition)
+    {
+        NetworkMonster monster = m_map.GetMonsterAtPosition(targetPosition);
+        if (monster == null)
+        {
+            return false;
+        }
+        NetworkHealth monsterHealth = monster.Health;
+        int damage = Damage.GetDamage(m_attack);
+        monsterHealth.TakeDamage(damage);
+        Debug.Log(monster.name + " " + (-damage) + ": " + monsterHealth.CurrentHealth + "/" + monsterHealth.MaxHealth);
+        if (monsterHealth.IsDead())
+        {
+            Debug.Log(monster.name + " died.");
+            m_map.RemoveMonsterAtPosition(targetPosition);
+            NetworkServer.Destroy(monster.gameObject);
+        }
+        return true;
     }
 
     [Server]

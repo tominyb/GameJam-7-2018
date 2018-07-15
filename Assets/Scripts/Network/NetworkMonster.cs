@@ -5,17 +5,17 @@ using UnityEngine.Networking;
 public class NetworkMonster : NetworkBehaviour
 {
     [SerializeField] private ScriptableObjects.MonsterContainer m_monsters = null;
-    [SyncVar] public int MonsterIndex;
+    [HideInInspector] [SyncVar] public int MonsterIndex = -1;
 
-    private NetworkHealth m_health;
-    private int           m_damage;
+    [HideInInspector] public NetworkHealth Health = null;
+    private int m_damage = 0;
 
     public override void OnStartClient()
     {
         base.OnStartClient();
         ScriptableObjects.Monster data        = m_monsters.Monsters[MonsterIndex];
-        m_health                              = GetComponent<NetworkHealth>();
-        m_health.MaxHealth                    = data.StartingHealth;
+        Health                                = GetComponent<NetworkHealth>();
+        Health.MaxHealth                      = data.StartingHealth;
         m_damage                              = data.Damage;
         GetComponent<SpriteRenderer>().sprite = data.Sprite;
     }

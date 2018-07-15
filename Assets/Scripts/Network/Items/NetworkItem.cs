@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class NetworkItem : NetworkBehaviour
 {
     [SerializeField] private ScriptableObjects.ItemContainer m_items = null;
-    [SyncVar] public int ItemIndex = -1;
+    [HideInInspector] [SyncVar] public int ItemIndex = -1;
     public int HealthRestoreAmount { get { return m_items.Items[ItemIndex].HealthRestoreAmount; } }
 
     public override void OnStartClient()
