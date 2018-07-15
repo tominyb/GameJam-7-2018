@@ -158,4 +158,13 @@ public class NetworkPlayer : NetworkBehaviour
     {
         m_turnUI?.FinishOwnTurn();
     }
+
+    [ClientRpc]
+    public void RpcDie()
+    {
+        if (isLocalPlayer)
+        {
+            DeathUI.I.Die();
+        }
+    }
 }

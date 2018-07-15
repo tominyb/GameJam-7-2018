@@ -136,6 +136,10 @@ public class NetworkTurnManagerServerData : MonoBehaviour
     private void InflictDamageOnPlayer(int damage, NetworkPlayer player)
     {
         player.Health.TakeDamage(damage);
+        if (player.Health.IsDead())
+        {
+            player.RpcDie();
+        }
     }
 
     public void FinishClientTurn(int clientConnectionId)
