@@ -14,12 +14,16 @@ public class NetworkItemSpawner : NetworkBehaviour
         for (int i = 0; i < itemCount; ++i)
         {
             int possibleSpawnIndex = Random.Range(0, possibleSpawns.Count);
-            Tile spawnTile = possibleSpawns[possibleSpawnIndex];
-            GameObject itemObject =
-                Instantiate(m_itemPrefab, spawnTile.Sprite.transform.position, Quaternion.identity);
-            itemObject.GetComponent<NetworkItem>().ItemIndex = m_items.GetRandomItemIndex();
-            NetworkServer.Spawn(itemObject);
+            SpawnItemOnTile(possibleSpawns[possibleSpawnIndex]);
             possibleSpawns.RemoveAt(possibleSpawnIndex);
         }
+    }
+
+    private void SpawnItemOnTile(Tile tile)
+    {
+        GameObject itemObject =
+            Instantiate(m_itemPrefab, tile.Sprite.transform.position, Quaternion.identity);
+        itemObject.GetComponent<NetworkItem>().ItemIndex = m_items.GetRandomItemIndex();
+        NetworkServer.Spawn(itemObject);
     }
 }

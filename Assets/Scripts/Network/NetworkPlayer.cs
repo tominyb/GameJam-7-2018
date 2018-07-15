@@ -5,8 +5,10 @@ using UnityEngine.Networking;
 public class NetworkPlayer : NetworkBehaviour
 {
     private Map m_map = Map.I;
-    private NetworkHealth m_health = null;
     private Vector2Int m_position = Vector2Int.zero;
+
+    [HideInInspector] public NetworkHealth Health = null;
+    [SerializeField] [SyncVar] private int Attack = 6;
 
     // Local player only.
     private TurnUI m_turnUI = null;
@@ -18,12 +20,13 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void Start()
     {
-        m_health = GetComponent<NetworkHealth>();
         m_position = m_map.GetClosestTile(transform.position);
+        Health = GetComponent<NetworkHealth>();
 
         if (isLocalPlayer)
         {
             m_turnUI = FindObjectOfType<TurnUI>();
+            FindObjectOfType<HealthBar>().Health = Health;
             PlayerCamera.LocalPlayer = gameObject;
         }
     }
