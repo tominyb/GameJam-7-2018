@@ -45,11 +45,12 @@ public class NetworkTurnManagerServerData : MonoBehaviour
     {
         Dictionary<Vector2Int, NetworkMonster> monsters = Map.I.Monsters;
         Dictionary<Vector2Int, NetworkMonster> newMonsterPositions = new Dictionary<Vector2Int, NetworkMonster>(monsters);
-        List<NetworkPlayer> players                     = m_networkManager.ClientPlayers.Values.ToList();
+        List<NetworkPlayer> players = m_networkManager.ClientPlayers.Values.ToList();
 
         foreach (KeyValuePair<Vector2Int, NetworkMonster> entry in monsters)
         {
             Vector2Int currentPosition = entry.Key;
+            NetworkMonster monster = entry.Value;
             List<Vector2Int> targetTiles = new List<Vector2Int>();
             MonsterAction action = MonsterAction.Wait;
 
@@ -79,15 +80,15 @@ public class NetworkTurnManagerServerData : MonoBehaviour
 
             if (action == MonsterAction.Attack)
             {
-                Debug.Log("Attack");
+                PerformMonsterAttack(monster, targetTiles[0], players);
             }
 
             else
             {
                 Vector2Int targetTile = targetTiles[Random.Range(0, targetTiles.Count)];
-                newMonsterPositions.Add(targetTile, entry.Value);
-                entry.Value.RpcMove(targetTile);
-                newMonsterPositions.Remove(entry.Key);
+                newMonsterPositions.Add(targetTile, monster);
+                monster.RpcMove(targetTile);
+                newMonsterPositions.Remove(currentPosition);
             }
         }
 
@@ -118,6 +119,23 @@ public class NetworkTurnManagerServerData : MonoBehaviour
         }
 
         return MonsterAction.Wait;
+    }
+
+    private void PerformMonsterAttack(NetworkMonster monster, Vector2Int targetPosition, List<NetworkPlayer> players)
+    {
+        foreach (NetworkPlayer player in players)
+        {
+            if (player.Position == targetPosition)
+            {
+                InflictDamageOnPlayer(Damage.GetDamage(monster.Damage), player);
+                return;
+            }
+        }
+    }
+
+    private void InflictDamageOnPlayer(int damage, NetworkPlayer player)
+    {
+        player.Health.TakeDamage(damage);
     }
 
     public void FinishClientTurn(int clientConnectionId)

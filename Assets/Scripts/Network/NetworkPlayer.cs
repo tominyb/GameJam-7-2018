@@ -8,6 +8,7 @@ public class NetworkPlayer : NetworkBehaviour
     private Vector2Int m_position = Vector2Int.zero;
 
     private NetworkHealth m_health = null;
+    public NetworkHealth Health { get { return m_health; } }
     [SyncVar] private int m_attack = 6;
 
     // Local player only.

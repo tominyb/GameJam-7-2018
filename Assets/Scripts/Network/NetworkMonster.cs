@@ -9,6 +9,7 @@ public class NetworkMonster : NetworkBehaviour
 
     [HideInInspector] public NetworkHealth Health = null;
     private int m_damage = 0;
+    public int Damage { get { return m_damage; } }
 
     public override void OnStartClient()
     {
