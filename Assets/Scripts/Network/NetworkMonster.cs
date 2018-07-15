@@ -19,4 +19,10 @@ public class NetworkMonster : NetworkBehaviour
         m_damage                              = data.Damage;
         GetComponent<SpriteRenderer>().sprite = data.Sprite;
     }
+
+    [ClientRpc]
+    public void RpcMove(Vector2 targetTile)
+    {
+        transform.position = Map.I.GetTile(Vector2Int.RoundToInt(targetTile)).Sprite.transform.position;
+    }
 }

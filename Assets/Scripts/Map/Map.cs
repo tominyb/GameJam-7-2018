@@ -33,7 +33,7 @@ public class Map : MonoBehaviour
     
     private Dictionary<Vector2Int, Tile> m_grid = new Dictionary<Vector2Int, Tile>();
     private Dictionary<Vector2Int, NetworkItem> m_items = new Dictionary<Vector2Int, NetworkItem>();
-    private Dictionary<Vector2Int, NetworkMonster> m_monsters = new Dictionary<Vector2Int, NetworkMonster>();
+    public Dictionary<Vector2Int, NetworkMonster> Monsters = new Dictionary<Vector2Int, NetworkMonster>();
     private Dictionary<TileType, Sprite> m_tileSprites;
 
     private void Awake()
@@ -257,17 +257,17 @@ public class Map : MonoBehaviour
 
     public void AddMonsterAtPosition(NetworkMonster monster, Vector2Int position)
     {
-        AddAtPosition(m_monsters, monster, position);
+        AddAtPosition(Monsters, monster, position);
     }
 
     public NetworkMonster GetMonsterAtPosition(Vector2Int position)
     {
-        return GetAtPosition(m_monsters, position);
+        return GetAtPosition(Monsters, position);
     }
 
     public void RemoveMonsterAtPosition(Vector2Int position)
     {
-        RemoveAtPosition(m_monsters, position);
+        RemoveAtPosition(Monsters, position);
     }
 
     private void AddAtPosition<T>(Dictionary<Vector2Int, T> dict, T elem, Vector2Int position)
