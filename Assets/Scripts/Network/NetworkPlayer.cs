@@ -91,12 +91,15 @@ public class NetworkPlayer : NetworkBehaviour
             return;
         }
 
-        HandlePossibleItemAtTargetPosition(targetPosition);
-        if (!HandlePossibleMonsterAtTargetPosition(targetPosition))
+        if (HandlePossibleMonsterAtTargetPosition(targetPosition))
         {
-            m_position = targetPosition;
-            RpcSetPosition(targetPosition);
+            return;
         }
+
+        HandlePossibleItemAtTargetPosition(targetPosition);
+
+        m_position = targetPosition;
+        RpcSetPosition(targetPosition);
     }
 
     [Server]
