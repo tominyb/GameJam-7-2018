@@ -25,11 +25,15 @@ public class NetworkHealth : NetworkBehaviour
     public void TakeDamage(int amount)
     {
         CurrentHealth -= amount;
-        // TODO: Handle death.
     }
 
     public void RestoreHealth(int amount)
     {
         CurrentHealth += amount;
+    }
+
+    public bool IsDead()
+    {
+        return m_currentHealth <= 0;
     }
 }
