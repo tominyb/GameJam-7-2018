@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd05774b419240b4e89f0e99f0371678, type: 3}
-  m_Name: Potion
+  m_Name: HighPotion
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300000, guid: 43c46073799e3854d8237339668ceee9, type: 3}
-  HealthRestoreAmount: 10
+  HealthRestoreAmount: 50

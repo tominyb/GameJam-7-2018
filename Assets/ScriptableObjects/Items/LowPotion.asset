@@ -8,9 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd9a14311b3ae0349b35b1637a24c2be, type: 3}
-  m_Name: Items
+  m_Script: {fileID: 11500000, guid: bd05774b419240b4e89f0e99f0371678, type: 3}
+  m_Name: LowPotion
   m_EditorClassIdentifier: 
-  Items:
-  - {fileID: 11400000, guid: 71b39cecb445e994db5afb668b6d01ba, type: 2}
-  - {fileID: 11400000, guid: 8748c4e3232cc0c41a82e472abaac2d6, type: 2}
+  Sprite: {fileID: 21300000, guid: dc42483a0aeeace4a92ae03279b26062, type: 3}
+  HealthRestoreAmount: 10
