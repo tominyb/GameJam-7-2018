@@ -7,8 +7,8 @@ public class NetworkPlayer : NetworkBehaviour
     private Map m_map = Map.I;
     private Vector2Int m_position = Vector2Int.zero;
 
-    [HideInInspector] public NetworkHealth Health = null;
-    [SerializeField] [SyncVar] private int Attack = 6;
+    private NetworkHealth m_health = null;
+    [SyncVar] private int m_attack = 6;
 
     // Local player only.
     private TurnUI m_turnUI = null;
@@ -21,12 +21,12 @@ public class NetworkPlayer : NetworkBehaviour
     private void Start()
     {
         m_position = m_map.GetClosestTile(transform.position);
-        Health = GetComponent<NetworkHealth>();
+        m_health = GetComponent<NetworkHealth>();
 
         if (isLocalPlayer)
         {
             m_turnUI = FindObjectOfType<TurnUI>();
-            FindObjectOfType<HealthBar>().Health = Health;
+            FindObjectOfType<HealthBar>().Health = m_health;
             PlayerCamera.LocalPlayer = gameObject;
         }
     }
@@ -65,7 +65,7 @@ public class NetworkPlayer : NetworkBehaviour
             NetworkItem item = m_map.GetItemAtPosition(targetPosition);
             if (item != null)
             {
-                Health.RestoreHealth(item.HealthRestoreAmount);
+                m_health.RestoreHealth(item.HealthRestoreAmount);
                 m_map.RemoveItemAtPosition(targetPosition);
                 NetworkServer.Destroy(item.gameObject);
             }
