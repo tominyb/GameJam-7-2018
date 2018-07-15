@@ -503,22 +503,22 @@ Prefab:
     - target: {fileID: 224459338090515572, guid: f805884a391bd7047bbdaab8132e49e9,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 224459338090515572, guid: f805884a391bd7047bbdaab8132e49e9,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 224459338090515572, guid: f805884a391bd7047bbdaab8132e49e9,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 224459338090515572, guid: f805884a391bd7047bbdaab8132e49e9,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 224459338090515572, guid: f805884a391bd7047bbdaab8132e49e9,
         type: 2}
