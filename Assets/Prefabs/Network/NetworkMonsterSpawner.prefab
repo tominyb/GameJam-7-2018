@@ -85,5 +85,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_monsters: {fileID: 11400000, guid: 4306aac1482cb31469ed6d94d77fe0df, type: 2}
-  m_monsterPrefab: {fileID: 114140963168073014, guid: 841cacc4351aa8842b34d43cd0aea312,
+  m_monsterPrefab: {fileID: 1967666818236088, guid: 841cacc4351aa8842b34d43cd0aea312,
     type: 2}
+  m_monsterProbability: 0.05

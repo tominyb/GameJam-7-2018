@@ -33,6 +33,7 @@ public class Map : MonoBehaviour
     
     private Dictionary<Vector2Int, Tile> m_grid = new Dictionary<Vector2Int, Tile>();
     private Dictionary<Vector2Int, NetworkItem> m_items = new Dictionary<Vector2Int, NetworkItem>();
+    private Dictionary<Vector2Int, NetworkMonster> m_monsters = new Dictionary<Vector2Int, NetworkMonster>();
     private Dictionary<TileType, Sprite> m_tileSprites;
 
     private void Awake()
@@ -241,18 +242,48 @@ public class Map : MonoBehaviour
 
     public void AddItemAtPosition(NetworkItem item, Vector2Int position)
     {
-        m_items.Add(position, item);
+        AddAtPosition(m_items, item, position);
     }
 
     public NetworkItem GetItemAtPosition(Vector2Int position)
     {
-        NetworkItem item = null;
-        m_items.TryGetValue(position, out item);
-        return item;
+        return GetAtPosition(m_items, position);
     }
 
     public void RemoveItemAtPosition(Vector2Int position)
     {
-        m_items.Remove(position);
+        RemoveAtPosition(m_items, position);
+    }
+
+    public void AddMonsterAtPosition(NetworkMonster monster, Vector2Int position)
+    {
+        AddAtPosition(m_monsters, monster, position);
+    }
+
+    public NetworkMonster GetMonsterAtPosition(Vector2Int position)
+    {
+        return GetAtPosition(m_monsters, position);
+    }
+
+    public void RemoveMonsterAtPosition(Vector2Int position)
+    {
+        RemoveAtPosition(m_monsters, position);
+    }
+
+    private void AddAtPosition<T>(Dictionary<Vector2Int, T> dict, T elem, Vector2Int position)
+    {
+        dict.Add(position, elem);
+    }
+
+    public T GetAtPosition<T>(Dictionary<Vector2Int, T> dict, Vector2Int position)
+    {
+        T elem = default(T);
+        dict.TryGetValue(position, out elem);
+        return elem;
+    }
+
+    public void RemoveAtPosition<T>(Dictionary<Vector2Int, T> dict, Vector2Int position)
+    {
+        dict.Remove(position);
     }
 }

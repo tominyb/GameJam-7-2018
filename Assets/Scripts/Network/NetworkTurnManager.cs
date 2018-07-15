@@ -28,6 +28,7 @@ public class NetworkTurnManager : NetworkBehaviour
     [Server]
     private IEnumerator HandleTurns()
     {
+        yield return null; // Let turn timer settle.
         for (;;)
         {
             yield return new WaitForSeconds(m_timeBetweenTurns);
