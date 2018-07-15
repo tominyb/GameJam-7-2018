@@ -32,6 +32,7 @@ public class Map : MonoBehaviour
     private const float MaxDistanceToAnotherRoom = 3.0f;
     
     private Dictionary<Vector2Int, Tile> m_grid = new Dictionary<Vector2Int, Tile>();
+    private Dictionary<Vector2Int, NetworkItem> m_items = new Dictionary<Vector2Int, NetworkItem>();
     private Dictionary<TileType, Sprite> m_tileSprites;
 
     private void Awake()
@@ -228,8 +229,30 @@ public class Map : MonoBehaviour
         return m_tileSprites[type];
     }
 
+    public List<KeyValuePair<Vector2Int, Tile>> GetPositionTilePairsOfType(TileType type)
+    {
+        return m_grid.Where(e => e.Value.Type == type).ToList();
+    }
+
     public List<Tile> GetTilesOfType(TileType type)
     {
         return m_grid.Values.Where(tile => tile.Type == type).ToList();
+    }
+
+    public void AddItemAtPosition(NetworkItem item, Vector2Int position)
+    {
+        m_items.Add(position, item);
+    }
+
+    public NetworkItem GetItemAtPosition(Vector2Int position)
+    {
+        NetworkItem item = null;
+        m_items.TryGetValue(position, out item);
+        return item;
+    }
+
+    public void RemoveItemAtPosition(Vector2Int position)
+    {
+        m_items.Remove(position);
     }
 }

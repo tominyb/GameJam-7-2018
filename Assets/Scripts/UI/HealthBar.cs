@@ -6,8 +6,6 @@ public class HealthBar : MonoBehaviour
 {
     private Slider m_slider = null;
     public NetworkHealth Health = null;
-    private int m_previousMaxHealth = 0;
-    private int m_previousHealth = 0;
 
     private void Start()
     {
@@ -16,12 +14,10 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
-        if (Health == null)
+        if (Health != null)
         {
-            return;
+            m_slider.maxValue = Health.MaxHealth;
+            m_slider.value = Health.CurrentHealth;
         }
-
-        m_slider.maxValue = Health.MaxHealth;
-        m_slider.value = Health.CurrentHealth;
     }
 }

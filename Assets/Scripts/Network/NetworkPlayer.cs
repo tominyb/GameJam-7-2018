@@ -62,6 +62,13 @@ public class NetworkPlayer : NetworkBehaviour
 
         if (tile.Type != TileType.Door)
         {
+            NetworkItem item = m_map.GetItemAtPosition(targetPosition);
+            if (item != null)
+            {
+                Health.RestoreHealth(item.HealthRestoreAmount);
+                m_map.RemoveItemAtPosition(targetPosition);
+                NetworkServer.Destroy(item.gameObject);
+            }
             RpcSetPosition(targetPosition);
         }
         else
