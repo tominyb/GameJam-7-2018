@@ -48,7 +48,6 @@ public class NetworkPlayer : NetworkBehaviour
         }
 
         Vector2Int targetPosition = m_position + Vector2Int.RoundToInt(delta);
-
         if (IsPositionOccupiedByAnotherPlayer(targetPosition))
         {
             return;
@@ -60,21 +59,39 @@ public class NetworkPlayer : NetworkBehaviour
             return;
         }
 
-        if (tile.Type != TileType.Door)
+        HandleTileAtTargetPosition(tile, targetPosition);
+        m_turnManager.FinishClientTurn(connectionId);
+    }
+
+    [Server]
+    private bool IsPositionOccupiedByAnotherPlayer(Vector2Int position)
+    {
+        var players = m_networkManager.ClientPlayers;
+        foreach (var entry in players)
         {
-            HandlePossibleItemAtTargetPosition(targetPosition);
-            if (!HandlePossibleMonsterAtTargetPosition(targetPosition))
+            if (entry.Value.Position == position)
             {
-                RpcSetPosition(targetPosition);
+                return true;
             }
         }
-        else
+        return false;
+    }
+
+    [Server]
+    private void HandleTileAtTargetPosition(Tile tile, Vector2Int targetPosition)
+    {
+        if (tile.Type == TileType.Door)
         {
             tile.ChangeType(TileType.OpenDoor);
             RpcOpenDoorAtPosition(targetPosition);
+            return;
         }
 
-        m_turnManager.FinishClientTurn(connectionId);
+        HandlePossibleItemAtTargetPosition(targetPosition);
+        if (!HandlePossibleMonsterAtTargetPosition(targetPosition))
+        {
+            RpcSetPosition(targetPosition);
+        }
     }
 
     [Server]
@@ -109,20 +126,6 @@ public class NetworkPlayer : NetworkBehaviour
             NetworkServer.Destroy(monster.gameObject);
         }
         return true;
-    }
-
-    [Server]
-    private bool IsPositionOccupiedByAnotherPlayer(Vector2Int position)
-    {
-        var players = m_networkManager.ClientPlayers;
-        foreach (var entry in players)
-        {
-            if (entry.Value.Position == position)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     [ClientRpc]
