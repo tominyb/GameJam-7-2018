@@ -12,6 +12,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     // Local player only.
     private TurnUI m_turnUI = null;
+    private Transform m_canvasTransform = null;
+    [SerializeField] private DamageUI m_damageUI = null;
     // Server-only.
     private NetworkTurnManager m_turnManager = null;
     private CustomNetworkManager m_networkManager = null;
@@ -26,6 +28,7 @@ public class NetworkPlayer : NetworkBehaviour
         if (isLocalPlayer)
         {
             m_turnUI = FindObjectOfType<TurnUI>();
+            m_canvasTransform = FindObjectOfType<Canvas>().transform;
             FindObjectOfType<HealthBar>().Health = m_health;
             PlayerCamera.LocalPlayer = gameObject;
         }
@@ -118,14 +121,19 @@ public class NetworkPlayer : NetworkBehaviour
         NetworkHealth monsterHealth = monster.Health;
         int damage = Damage.GetDamage(m_attack);
         monsterHealth.TakeDamage(damage);
-        Debug.Log(monster.name + " " + (-damage) + ": " + monsterHealth.CurrentHealth + "/" + monsterHealth.MaxHealth);
+        RpcDisplayDamage(damage, monster.transform.position);
         if (monsterHealth.IsDead())
         {
-            Debug.Log(monster.name + " died.");
             m_map.RemoveMonsterAtPosition(targetPosition);
             NetworkServer.Destroy(monster.gameObject);
         }
         return true;
+    }
+
+    [ClientRpc]
+    private void RpcDisplayDamage(int damage, Vector3 monsterPosition)
+    {
+        Instantiate(m_damageUI, m_canvasTransform).InitEffect(damage, monsterPosition);
     }
 
     [ClientRpc]
