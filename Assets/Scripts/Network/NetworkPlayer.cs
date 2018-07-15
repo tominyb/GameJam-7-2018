@@ -93,6 +93,7 @@ public class NetworkPlayer : NetworkBehaviour
         HandlePossibleItemAtTargetPosition(targetPosition);
         if (!HandlePossibleMonsterAtTargetPosition(targetPosition))
         {
+            m_position = targetPosition;
             RpcSetPosition(targetPosition);
         }
     }

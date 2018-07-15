@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NetworkTurnManagerServerData : MonoBehaviour
 {
+    public enum MonsterAction { Attack, Move, Wait }
+
     [SerializeField] private CustomNetworkManager m_networkManager = null;
     private HashSet<int> m_clientConnectionIds = null;
     private readonly HashSet<int> m_finishedClientConnectionIds = new HashSet<int>();
@@ -44,24 +46,75 @@ public class NetworkTurnManagerServerData : MonoBehaviour
         Dictionary<Vector2Int, NetworkMonster> monsters = Map.I.Monsters;
         Dictionary<Vector2Int, NetworkMonster> newMonsterPositions = new Dictionary<Vector2Int, NetworkMonster>(monsters);
         List<NetworkPlayer> players                     = m_networkManager.ClientPlayers.Values.ToList();
+
         foreach (KeyValuePair<Vector2Int, NetworkMonster> entry in monsters)
         {
-            Vector2Int randomDirection = m_directions[Random.Range(0, m_directions.Length)];
-            Vector2Int targetTile = entry.Key + randomDirection;
-            if (IsTilePassable(targetTile, newMonsterPositions))
+            Vector2Int currentPosition = entry.Key;
+            List<Vector2Int> targetTiles = new List<Vector2Int>();
+            MonsterAction action = MonsterAction.Wait;
+
+            for (int i = 0; i < m_directions.Length; ++i)
             {
+                Vector2Int targetTile = currentPosition + m_directions[i];
+                action = GetMonsterAction(targetTile, newMonsterPositions, players);
+                if (action == MonsterAction.Move)
+                {
+                    targetTiles.Add(targetTile);
+                }
+                else if (action == MonsterAction.Attack)
+                {
+                    targetTiles.Clear();
+                    targetTiles.Add(targetTile);
+                    break;
+                }
+            }
+
+            if (action == MonsterAction.Wait)
+            {
+                continue;
+            }
+
+            if (action == MonsterAction.Attack)
+            {
+                Debug.Log("Attack");
+            }
+
+            else
+            {
+                Vector2Int targetTile = targetTiles[Random.Range(0, targetTiles.Count)];
                 newMonsterPositions.Add(targetTile, entry.Value);
                 entry.Value.RpcMove(targetTile);
                 newMonsterPositions.Remove(entry.Key);
             }
         }
+
         Map.I.Monsters = newMonsterPositions;
     }
 
-    private bool IsTilePassable(Vector2Int tilePosition, Dictionary<Vector2Int, NetworkMonster> monsters)
+    private MonsterAction GetMonsterAction(Vector2Int tilePosition, Dictionary<Vector2Int, NetworkMonster> monsters,
+        List<NetworkPlayer> players)
     {
         Tile tile = Map.I.GetTile(tilePosition);
-        return tile != null && tile.Type != TileType.Door && !monsters.ContainsKey(tilePosition);
+
+        if (tile == null)
+        {
+            return MonsterAction.Wait;
+        }
+
+        for (int i = 0; i < players.Count; ++i)
+        {
+            if (players[i].Position == tilePosition)
+            {
+                return MonsterAction.Attack;
+            }
+        }
+
+        if (tile.Type != TileType.Door && !monsters.ContainsKey(tilePosition))
+        {
+            return MonsterAction.Move;
+        }
+
+        return MonsterAction.Wait;
     }
 
     public void FinishClientTurn(int clientConnectionId)
