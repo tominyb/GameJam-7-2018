@@ -20,6 +20,7 @@ public class DamageUI : MonoBehaviour
         m_text.text = (-damage).ToString();
         m_text.CrossFadeAlpha(0f, m_effectDuration, false);
         m_initialWorldPosition = damagedEntityWorldPosition;
+        UpdatePosition();
     }
 
     private void Update()
@@ -30,6 +31,11 @@ public class DamageUI : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        UpdatePosition();
+    }
+
+    private void UpdatePosition()
+    {
         transform.position =
             Camera.main.WorldToScreenPoint(m_initialWorldPosition)
             + ((m_effectTime / m_effectDuration) * m_effectOffset * Vector3.up);
